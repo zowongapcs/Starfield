@@ -1,5 +1,5 @@
 Particle[] stars = new Particle[250];
-OddestestballParticle spaceship;
+OddestballParticle spaceship;
 
 void setup(){
   size(800,650);
@@ -13,18 +13,17 @@ void setup(){
   }
   for(int i=5;i<55;i++)
   {
-    stars[i]= new OdderballParticle(625,150,color(255,229,143));
+    stars[i]= new OdderballParticle(625,350,color(255,229,143));
   }
   for(int i=55;i<95;i++)
   {
-    stars[i]= new OdderballParticle(500,350,color(154,255,143));
+    stars[i]= new OdderballParticle(500,450,color(154,255,143));
   }
   for(int i=95;i<135;i++)
   {
-    stars[i]= new OdderballParticle(725,300,color(255,177,143));
+    stars[i]= new OdderballParticle(725,400,color(255,177,143));
   }
-//  stars[55]= new OddestballParticle(650,150);
-  spaceship = new OddestestballParticle();
+  spaceship = new OddestballParticle();
 }
 
 void draw(){
@@ -36,6 +35,45 @@ void draw(){
   }
   fill(12,28,4);
   ellipse(400,650,2000,250);
+  
+  int standsX=500;
+  while(standsX<=760)
+  {
+    noStroke();
+    fill(143,96,39);
+    if(standsX>500 && standsX<758){
+      rect(standsX-30,534,60,20);
+    } else if(standsX==500){
+      rect(standsX,534,30,20);
+    } else {
+      rect(standsX-30,534,30,20);
+    }
+    if(standsX>500 && standsX<758){
+      fill(255,(int)(Math.random()*255/2),0);
+      quad(standsX-30,500,standsX,495,standsX,510,standsX-30,510);
+      fill(255,(int)(Math.random()*255/2),0);
+      quad(standsX+30,500,standsX,495,standsX,510,standsX+30,510);
+    } else if(standsX==500){
+      fill(255,(int)(Math.random()*255/2),0);
+      quad(standsX+30,500,standsX,495,standsX,510,standsX+30,510);
+    }else {
+      fill(255,(int)(Math.random()*255/2),0);
+      quad(standsX-30,500,standsX,495,standsX,510,standsX-30,510);
+    }
+    stroke(105,71,29);
+    strokeWeight(8);
+    line(standsX,495,standsX,550);
+    standsX+=86;
+  }
+  noStroke();
+  strokeWeight(1);
+  standsX=500;
+  while(standsX<=760)
+  {
+    fill(255,(int)(Math.random()*50+205),143);
+    ellipse(standsX,500-(float)Math.sin(standsX)*5,8,8);
+    standsX+=20;
+  }
   
   for(int i=0;i<stars.length;i++)
   {
@@ -100,7 +138,6 @@ class OddballParticle extends Particle
   {
     myX++;
     myY++;
-    //myY += (double) 650*cos((float)(myX*2*Math.PI)/800);
     if(myY>=500)
     {
       burn=true;
@@ -146,15 +183,19 @@ class OdderballParticle extends OddballParticle
   
   OdderballParticle(int x,int y,int Color)
   {
-    //myX = (int)(Math.random()*800);
-    //myY = (int)(Math.random()*450);
-    //myX = 650;
-    //myY = 150;
     myX = startX= x;
     myY = startY= y;
-    myOpacity = 255;
     mySize = 8;
     myColor = Color;
+    if(myColor==color(255,229,143))
+    {
+      myOpacity = 85;
+    } else if(myColor==color(154,255,143))
+    {
+      myOpacity = 170;
+    } else {
+      myOpacity = 255;
+    }
     angle = (float)(Math.random()*2*Math.PI);
     speed = (float)(Math.random()*50);
   }
@@ -165,16 +206,12 @@ class OdderballParticle extends OddballParticle
   }
   void blink()
   {
-    //mySize--;
     myOpacity-=10;
     if(mySize<=0 || myOpacity<=0)
     {
       myX = startX;
       myY = startY;
-      //myX = (double)(Math.random()*600 +100);
-      //myY = (double)(Math.random()*400);
       myOpacity = 255;
-      //mySize = 8;
     }
     if(myY>515)
     {
@@ -188,47 +225,16 @@ class OdderballParticle extends OddballParticle
   }
 }
 
-//class OddestballParticle extends OdderballParticle
-//{
-//  OddestballParticle(int x,int y)
-//  {
-    //myX = 650;
-    //myY = 150;
-//    myX = x;
-//    myY = y;
-//    myOpacity = 255;
-
-//    angle = (float)(Math.random()*2*Math.PI);
-//    speed = (float)(Math.random()*50);
-//  }
-//  void move()
-//  {
-//    myX += (double) cos(angle*speed);
-//    myY += (double) sin(angle*speed);
-//  }
-//  void blink()
-//  {
-//    if(myY>515){
-//    myOpacity = 0;
-//    }
-//  }
-//  void show()
-//  {
-//    fill(255,59,59,myOpacity);
-//    triangle((int)myX,(int)myY,(int)myX-2,(int)myY+3,(int)myX+2,(int)myY+3);
-//  }
-//}
-
-class OddestestballParticle
+class OddestballParticle
 {
   int shipX, shipY, cowX, cowY;
   boolean captured;
   
-  OddestestballParticle()
+  OddestballParticle()
   {
     shipX = (int) (Math.random()*800);
     shipY = (int) (Math.random()*200);
-    cowX = (int) (Math.random()*400);
+    cowX = (int) (Math.random()*300+10);
     cowY = 550;
     captured = false;
   }
@@ -264,22 +270,9 @@ class OddestestballParticle
       shipY--;
       }
     }
-    if(captured==true && cowY<=shipY)
-    {
-      //shipY--;
-      //shipX++;
-    }
-    
   }
   void show()
   {
-    //beam
-    if(captured==true && cowY>shipY)
-    {
-      fill(0,255,0,50);
-      triangle(shipX,shipY,cowX-25,cowY+5,cowX+25,cowY+5);
-    }
-    
     //cow
     if(cowY>shipY)
     {
@@ -310,6 +303,13 @@ class OddestestballParticle
     fill(255,196,196);
     noStroke();
     ellipse(cowX-11,cowY-2,4,3);
+    }
+    
+    //beam
+    if(captured==true && cowY>shipY)
+    {
+      fill(0,255,0,50);
+      triangle(shipX,shipY,cowX-25,cowY+5,cowX+25,cowY+5);
     }
     
     //ship
